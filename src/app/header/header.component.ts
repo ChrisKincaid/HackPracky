@@ -14,6 +14,13 @@ import { User } from '../interfaces/user';
 export class HeaderComponent implements OnInit{
   authUser$: Observable<User | null>;
   firestoreUser: User | null;
+
+  currentUrl: string = window.location.href;
+  currentGame = this.currentUrl.substring(this.currentUrl.lastIndexOf("/") + 1);
+
+
+
+
 constructor(public authService: AuthService, public userService: UserService) {}
 
 
@@ -27,7 +34,12 @@ constructor(public authService: AuthService, public userService: UserService) {}
         });
       }
     });
+
+    if (this.currentGame === 'looney-login') {
+      this.currentGame = 'LOONEY LOGIN';
+    }
   }
+
 
 
     logOut() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { LooneyLoginService } from 'src/app/services/looney-login.service';
 
 @Component({
   selector: 'app-login',
@@ -8,9 +9,12 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit{
 
-  constructor(private authService: AuthService) { }
+  constructor(  private authService: AuthService,
+                private looneyLoginService: LooneyLoginService) { }
 
   ngOnInit(): void {
+    console.log('Here it is', this.looneyLoginService.generateHashStrings());
+
     }
 
     onSubmit(formValue: any){
