@@ -47,6 +47,7 @@ export class AuthService {
 
   getUser(): Observable<User | null>{
     return this.user.asObservable();
+    console.log(this.user);
   }
 
   async creatUserProfile(user: User){

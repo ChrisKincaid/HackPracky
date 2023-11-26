@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
+
+import { UserService } from '../services/user.service';
 import { User } from '../interfaces/user';
 
 @Component({
@@ -9,15 +11,27 @@ import { User } from '../interfaces/user';
   styleUrls: ['./header.component.css']
 })
 
-export class HeaderComponent {
-  user$: Observable<User | null>;
+export class HeaderComponent implements OnInit{
+  authUser$: Observable<User | null>;
+  firestoreUser: User | null;
+constructor(public authService: AuthService, public userService: UserService) {}
 
-constructor(public authService: AuthService) {
-  this.user$ = this.authService.getUser();
-}
 
-logOut() {
-  this.authService.logOut();
-}
+  ngOnInit(): void {
+    this.authUser$ = this.authService.getUser();
+    this.authUser$.subscribe(user => {
+      if (user) {
+        this.userService.getCurrentUserData(user.uid).subscribe(firestoreUser => {
+          console.log(firestoreUser); // this should log the entire user document data
+          this.firestoreUser = firestoreUser;
+        });
+      }
+    });
+  }
 
-}
+
+    logOut() {
+      this.authService.logOut();
+    }
+  }
+

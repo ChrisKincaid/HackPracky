@@ -18,16 +18,16 @@ ____ ____ ____ ____ ____ _________ ____ ____ ____ ____ ____
 
   <button class="btnHome marg5" routerLink="/home">HOME</button>
 
-  <p *ngIf="authService.getUser()">
-    Welcome, {{authService.getUser().username}}
-  </p>
+  <div *ngIf="firestoreUser">
+    {{firestoreUser.userName}} | POINTS: {{firestoreUser.points001}}
+  </div>
 
-  <button *ngIf="(user$ | async)"
+  <button *ngIf="(authUser$ | async)"
   class="btnLogout marg5"
   (click)="logOut()">
 LOGOUT
 </button>
-<button *ngIf="!(user$ | async)"
+<button *ngIf="!(authUser$ | async)"
   class="btnLogout marg5"
   routerLink="/login">
 LOGIN
