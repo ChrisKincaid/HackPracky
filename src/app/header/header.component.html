@@ -1,0 +1,36 @@
+<div class="containerMain">
+  <div class="headerALLItems">
+    <nav>
+      <div class="code-box">
+<!-- THIS \/\/\/ TEXTAREA MUST BE ALL THE WAY TO THE LEFT, NO TABING -->
+<textarea class="textCodeBox">
+____ ____ ____ ____ ____ _________ ____ ____ ____ ____ ____
+||H |||A |||C |||K |||Y |||       |||P |||R |||A |||K |||Y ||
+||__|||__|||__|||__|||__|||_______|||__|||__|||__|||__|||__||
+|/__\|/__\|/__\|/__\|/__\|/_______\|/__\|/__\|/__\|/__\|/__\|
+</textarea>
+<!-- <button onclick="runCode()">Run Code</button> -->
+</div>
+</nav>
+</div> <!-- END class="headerALLItems" -->
+</div> <!-- End containerMain  -->
+<div class="containerMain containerheaderFooter">
+
+  <button class="btnHome marg5" routerLink="/home">HOME</button>
+
+  <p *ngIf="authService.getUser()">
+    Welcome, {{authService.getUser().username}}
+  </p>
+
+  <button *ngIf="(user$ | async)"
+  class="btnLogout marg5"
+  (click)="logOut()">
+LOGOUT
+</button>
+<button *ngIf="!(user$ | async)"
+  class="btnLogout marg5"
+  routerLink="/login">
+LOGIN
+</button>
+</div>
+

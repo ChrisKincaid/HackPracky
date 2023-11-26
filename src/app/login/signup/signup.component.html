@@ -1,0 +1,64 @@
+<div class="conatinerLogin">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <div class="card p-5 shadow-effect bg-secondary-theme">
+
+        <div class="text-center">
+          <div class="text-theme-primary">Sign-up to join the fun on Hacky Packy.</div>
+        </div>
+
+        <div class="itemsLogin">
+          <form #signupNgForm="ngForm" (ngSubmit)='onSubmit(signupNgForm.value)'>
+
+            <div class="form-group">
+              <input  type="userName"         class="form-control"
+                      placeholder="User Name" name="username"
+                      #UserName='ngModel'     ngModel
+                      required
+                      [ngClass]="{'is-invalid': UserName.touched && UserName.invalid}">
+            </div>
+            <div class="form-group">
+              <input  type="email"        class="form-control"
+                      placeholder="Email" name="email"
+                      #Email='ngModel'    ngModel
+                      required email
+                      [ngClass]="{'is-invalid': Email.touched && Email.invalid}">
+            </div>
+            <div class="form-group">
+              <input  type="password"         class="form-control"
+                      placeholder="Password"  name="password"
+                      #Password='ngModel'     ngModel
+                      required
+                      [ngClass]="{'is-invalid': Password.touched && Password.invalid}">
+            </div>
+            <div class="form-group">
+              <input  type="password"                 class="form-control"
+                      placeholder="Re-enter Password" name="confirmPassword"
+                      #ConfirmPassword='ngModel'      ngModel
+                      required
+                      [ngClass]="{
+                        'is-invalid': ConfirmPassword.touched &&
+                        (ConfirmPassword.invalid ||
+                        Password.value !==
+                        ConfirmPassword.value)}">
+              <div  *ngIf="ConfirmPassword.touched &&
+                    Password.value !== ConfirmPassword.value"
+                    class="invalid-feedback">
+                Passwords do not match.
+              </div>
+            </div>
+
+              <button class="btn-info btn-theme btn-login"
+                      [disabled]="signupNgForm.invalid || !passwordsMatch">
+              Sign-up
+              </button>
+              <a href="/login" class="center marg5">Already signed up?</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3"></div>
+</div>  <!-- END class="conatinerLogin" -->
+

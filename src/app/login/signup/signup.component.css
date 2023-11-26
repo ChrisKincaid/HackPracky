@@ -1,0 +1,24 @@
+.conatinerLogin {
+  margin-top: 10%;
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-bottom: 10%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f3f3f3;
+}
+
+.btn-login {
+  width: 100%;
+  border-radius: 50px;
+  /* margin: 5px; */
+  /* align-items: center; */
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+.itemsLogin {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
