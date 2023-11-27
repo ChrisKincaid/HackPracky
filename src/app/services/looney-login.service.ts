@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
+import * as cron from 'node-cron';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,13 @@ import * as CryptoJS from 'crypto-js';
 export class LooneyLoginService {
 
   constructor() { }
+
+  //FRESH FUCKIN PASSWORDS SERVED UP EVERY 6 HOURS!!!
+  scheduleHashGeneration() {
+    cron.schedule('0 0,12 * * *', () => {
+      this.generateHashStrings();
+    });
+  }
 
   generateHashStrings(): void {
     const charSets = [
@@ -51,4 +59,6 @@ export class LooneyLoginService {
       console.log('------------------------');
     }
   }
+
+
 }
