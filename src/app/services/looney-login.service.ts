@@ -1,20 +1,14 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
-import * as cron from 'node-cron';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LooneyLoginService {
 
-  constructor() { }
+  constructor(private firestore: AngularFirestore) { }
 
-  //FRESH FUCKIN PASSWORDS SERVED UP EVERY 6 HOURS!!!
-  scheduleHashGeneration() {
-    cron.schedule('0 0,12 * * *', () => {
-      this.generateHashStrings();
-    });
-  }
 
   generateHashStrings(): void {
     const charSets = [
@@ -41,22 +35,30 @@ export class LooneyLoginService {
         // HASHING
         const hashString = CryptoJS.SHA256(selectedChars).toString(CryptoJS.enc.Hex);
 
-        result.push({
+        // result.push({
+        const hashData = {
           order: order++,
           name: charSets.slice(0, i).map(set => set.name).join(', '),
           value: hashString,
           charCount: selectedChars.length
-        });
-      }
+        };
+        // });
+        this.firestore.collection('looney-login-hashes').add(hashData);
+      };
 
-      console.log(`${i} characters:`);
+
+
+
+      // Testing results in console
+
+      // console.log(`${i} characters:`);
       for (let j = 0; j < result.length; j++) {
         console.log(` Order: ${result[j].order},
                       Name: ${result[j].name},
                       charCount: ${result[j].charCount},
                       HashedString: ${result[j].value}`);
       }
-      console.log('------------------------');
+
     }
   }
 

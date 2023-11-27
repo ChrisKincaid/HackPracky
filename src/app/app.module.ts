@@ -16,6 +16,9 @@ import { SignupComponent } from './login/signup/signup.component';
 import { LooneyLoginComponent } from './games/looney-login/looney-login.component';
 import { AuthService } from './services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LooneyLoginAdminComponent } from './games/admin/looney-login-admin/looney-login-admin.component';
+import { AdminMainComponent } from './games/admin/admin-main/admin-main.component';
+import { CountdownService } from './services/countdown.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HeaderComponent,
     FooterComponent,
     SignupComponent,
-    LooneyLoginComponent
+    LooneyLoginComponent,
+    LooneyLoginAdminComponent,
+    AdminMainComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ToastrModule.forRoot(),
     BrowserAnimationsModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, CountdownService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

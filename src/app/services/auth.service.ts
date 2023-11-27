@@ -47,7 +47,7 @@ export class AuthService {
 
   getUser(): Observable<User | null>{
     return this.user.asObservable();
-    console.log(this.user);
+    // console.log(this.user);
   }
 
   async creatUserProfile(user: User){
@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   loginEmail(username: string, email: string, password: string){
-    console.log(email, password);
+    // console.log(email, password);
     return this.afAuth.signInWithEmailAndPassword(email, password).then(logRef => {
       const user: User = {
         uid: logRef.user.uid,

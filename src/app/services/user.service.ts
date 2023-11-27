@@ -12,7 +12,7 @@ export class UserService {
   constructor(private firestore: AngularFirestore) { }
 
   getCurrentUserData(uid: string): Observable<User> {
-    console.log(uid);
+    // console.log(uid);
     return this.firestore.collection('users').doc<User>(uid).valueChanges();
   }
 

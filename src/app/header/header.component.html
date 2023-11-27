@@ -16,14 +16,7 @@ ____ ____ ____ ____ ____ _________ ____ ____ ____ ____ ____
 </div> <!-- End containerMain  -->
 <div class="containerMain containerheaderFooter">
 
-  <button class="btnHome marg5" routerLink="/home">HOME</button>
-
-  <div>
-    {{currentGame}}
-  </div>
-  <div *ngIf="firestoreUser">
-    {{firestoreUser.userName}} | POINTS: {{firestoreUser.points001}}
-  </div>
+<button class="btnHome marg5" routerLink="/home">HOME</button>
 
 <div class="navBtns">
   <button *ngIf="(authUser$ | async)"

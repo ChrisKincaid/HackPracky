@@ -21,7 +21,8 @@ export class HeaderComponent implements OnInit{
 
 
 
-constructor(public authService: AuthService, public userService: UserService) {}
+constructor(public authService: AuthService,
+            public userService: UserService) {}
 
 
   ngOnInit(): void {
@@ -29,18 +30,12 @@ constructor(public authService: AuthService, public userService: UserService) {}
     this.authUser$.subscribe(user => {
       if (user) {
         this.userService.getCurrentUserData(user.uid).subscribe(firestoreUser => {
-          console.log(firestoreUser); // this should log the entire user document data
+          // console.log(firestoreUser); // this should log the entire user document data
           this.firestoreUser = firestoreUser;
         });
       }
     });
-
-    if (this.currentGame === 'looney-login') {
-      this.currentGame = 'LOONEY LOGIN';
-    }
   }
-
-
 
     logOut() {
       this.authService.logOut();

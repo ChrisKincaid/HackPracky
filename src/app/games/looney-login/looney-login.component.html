@@ -1,19 +1,42 @@
-<header>
-</header>
+<div class="headerLoonyLogins">
+  <div>
+    LOONEY LOGINS
+  </div>
+  <div *ngIf="firestoreUser">
+    {{firestoreUser.userName}} | POINTS: {{firestoreUser.points001}}
+  </div>
+</div>
+
 <div class="containerMain">
   <div class="conatinerLogin">
     <div class="itemsLogin">
-
       <form>
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
+        <input type="text" id="username" name="username"value="admin">
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
 
         <button type="submit">Login</button>
       </form>
-      <button (click)="generateHashStrings()">CLICK HERE</button>
+      <!-- Create a rest page !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+      <!-- <button (click)="generateHashStrings()">CLICK HERE</button> -->
     </div>
   </div>
+
+    <!-- <div class="countdown">
+      <h2>Countdown Clock</h2>
+      <div>{{ countdown }}</div>
+    </div> -->
+
+    <div class="scoreboard">
+      <h2>Scoreboard</h2>
+      <ul>
+        <li>Player 1: 100 points</li>
+        <li>Player 2: 80 points</li>
+        <li>Player 3: 120 points</li>
+      </ul>
+
+
+
 </div>

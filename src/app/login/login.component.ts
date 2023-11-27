@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit{
                 private looneyLoginService: LooneyLoginService) { }
 
   ngOnInit(): void {
-    console.log('Here it is', this.looneyLoginService.generateHashStrings());
+    // console.log('Here it is', this.looneyLoginService.generateHashStrings());
 
     }
 
