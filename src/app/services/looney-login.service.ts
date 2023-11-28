@@ -54,61 +54,7 @@ export class LooneyLoginService {
             }
 
 
-            generateHashStrings(): void {
-              const collectionRef = this.firestore.collection('looney-login-hashes');
-              const batch = this.firestore.firestore.batch();
 
-              // Delete all documents in the collection
-              collectionRef.get().toPromise().then(querySnapshot => {
-                querySnapshot.docs.forEach(doc => {
-                  batch.delete(doc.ref);
-                });
-
-                const charSets = [
-                  { name: 'lowercase', chars: 'abcdefghijklmnopqrstuvwxyz' },
-                  { name: 'uppercase', chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
-                  { name: 'numbers', chars: '0123456789' },
-                  { name: 'special', chars: '!@#$%^&*_+~|?><.' }
-                ];
-
-                let order = 1;
-
-                for (let i = 1; i <= 25; i++) {
-                  for (let j = 1; j <= 4; j++) {
-                    let selectedChars: string = '';
-
-                    // Define the character sets for the current iteration
-                    const activeCharSets = charSets.slice(0, j);
-
-                    for (let k = 1; k <= i; k++) {
-                      const randomSetIndex = Math.floor(Math.random() * activeCharSets.length);
-                      const randomChar = activeCharSets[randomSetIndex].chars[Math.floor(Math.random() * activeCharSets[randomSetIndex].chars.length)];
-                      selectedChars += randomChar;
-                    }
-
-                    const hashString = CryptoJS.SHA256(selectedChars).toString(CryptoJS.enc.Hex);
-
-                    const hashData = {
-                      order: order,
-                      name: activeCharSets.map(set => set.name).join(', '),
-                      value: hashString,
-                      charCount: selectedChars.length,
-                      input: selectedChars
-                    };
-
-                    const docRef = collectionRef.doc(order.toString()).ref;
-                    batch.set(docRef, hashData);
-
-                    order++; // Increment order after each combination
-                  }
-                }
-
-                // Commit the batch
-                batch.commit().then(() => {
-                  console.log('All documents in the looney-login-hashes collection have been replaced.');
-                });
-              });
-            }
 
   getLowestOrderHash(): Promise<any> {
     return this.firestore.collection('looney-login-hashes', ref => ref
@@ -126,5 +72,76 @@ export class LooneyLoginService {
           throw new Error('No documents found');
         }
       });
+  }
+
+  removeLowestOrderHash(): Promise<void> {
+    return this.firestore.collection('looney-login-hashes', ref => ref
+      .orderBy('order').limit(1))
+      .get()
+      .toPromise()
+      .then(querySnapshot => {
+        if (!querySnapshot.empty) {
+          const docRef = querySnapshot.docs[0].ref;
+          return docRef.delete();
+        } else {
+          throw new Error('No documents found');
+        }
+      });
+  }
+//Generating fake password hashes for game and uploading to db
+  generateHashStrings(): void {
+    const collectionRef = this.firestore.collection('looney-login-hashes');
+    const batch = this.firestore.firestore.batch();
+
+    // Delete all documents in the collection
+    collectionRef.get().toPromise().then(querySnapshot => {
+      querySnapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+
+      const charSets = [
+        { name: 'lowercase', chars: 'abcdefghijklmnopqrstuvwxyz' },
+        { name: 'uppercase', chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
+        { name: 'numbers', chars: '0123456789' },
+        { name: 'special', chars: '!@#$%^&*_+~|?><.' }
+      ];
+
+      let order = 1;
+
+      for (let i = 1; i <= 25; i++) {
+        for (let j = 1; j <= 4; j++) {
+          let selectedChars: string = '';
+
+          // Define the character sets for the current iteration
+          const activeCharSets = charSets.slice(0, j);
+
+          for (let k = 1; k <= i; k++) {
+            const randomSetIndex = Math.floor(Math.random() * activeCharSets.length);
+            const randomChar = activeCharSets[randomSetIndex].chars[Math.floor(Math.random() * activeCharSets[randomSetIndex].chars.length)];
+            selectedChars += randomChar;
+          }
+
+          const hashString = CryptoJS.SHA256(selectedChars).toString(CryptoJS.enc.Hex);
+
+          const hashData = {
+            order: order,
+            name: activeCharSets.map(set => set.name).join(', '),
+            value: hashString,
+            charCount: selectedChars.length,
+            input: selectedChars
+          };
+
+          const docRef = collectionRef.doc(order.toString()).ref;
+          batch.set(docRef, hashData);
+
+          order++; // Increment order after each combination
+        }
+      }
+
+      // Commit the batch
+      batch.commit().then(() => {
+        console.log('All documents in the looney-login-hashes collection have been replaced.');
+      });
+    });
   }
 }

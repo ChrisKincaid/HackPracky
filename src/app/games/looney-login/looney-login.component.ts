@@ -60,7 +60,9 @@ export class LooneyLoginComponent implements OnInit {
     if (hashedInput === this.hash) {
       console.log('The input matches the hash');
       this.updateUserPoints();
+      this.looneyLoginService.removeLowestOrderHash()
       this.toastr.success('YOU GOT A CORRECT PASSWORD!!!!')
+      console.log('remove order ran??')
     } else {
       console.log('The input does not match the hash');
     }

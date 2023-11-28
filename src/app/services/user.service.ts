@@ -21,5 +21,18 @@ export class UserService {
     return this.firestore.collection('users').doc<User>(uid).update({ points001: points });
   }
 
+  resetPoints(points: string): Promise<void> {
+    return this.firestore.collection('users').get().toPromise().then(querySnapshot => {
+      const batch = this.firestore.firestore.batch();
+
+      querySnapshot.docs.forEach(doc => {
+        const docRef = this.firestore.doc(`users/${doc.id}`).ref;
+        batch.update(docRef, { points001: 0 });
+      });
+
+      return batch.commit();
+    });
+  }
+
   // other methods related to current user...
 }
