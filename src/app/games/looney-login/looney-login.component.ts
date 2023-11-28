@@ -4,7 +4,8 @@ import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { LooneyLoginService } from 'src/app/services/looney-login.service';
 import { UserService } from 'src/app/services/user.service';
-// import { CountdownService } from 'src/app/services/countdown.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { CredsLooneyLogins } from 'src/app/interfaces/creds-looney-logins';
 
 @Component({
   selector: 'app-looney-login',
@@ -18,8 +19,8 @@ export class LooneyLoginComponent implements OnInit {
 
   constructor(private looneyLoginService: LooneyLoginService,
               public authService: AuthService,
-              public userService: UserService) { }
-              // public countdownService: CountdownService) { }
+              public userService: UserService,
+              private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
     this.authUser$ = this.authService.getUser();
@@ -31,22 +32,5 @@ export class LooneyLoginComponent implements OnInit {
         });
       }
     });
-
-    // this.countdownService.countdown$.subscribe(countdown => {
-    //   this.countdown = countdown;
-    // });
   } // End of ngOnInit()
-
-  generateHashStrings(): void {
-    this.looneyLoginService.generateHashStrings();
-  }
-
-  // countdown clock code --------------------- Start
-
-
-
-  // countdown clock code --------------------- End
-
-
-
 }

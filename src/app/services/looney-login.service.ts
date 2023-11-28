@@ -11,6 +11,15 @@ export class LooneyLoginService {
 
 
   generateHashStrings(): void {
+    const collectionRef = this.firestore.collection('looney-login-hashes');
+    const batch = this.firestore.firestore.batch();
+
+    // Delete all documents in the collection
+    collectionRef.get().toPromise().then(querySnapshot => {
+    querySnapshot.docs.forEach(doc => {
+      batch.delete(doc.ref);
+    });
+
     const charSets = [
       { name: 'lowercase', chars: 'abcdefghijklmnopqrstuvwxyz' },
       { name: 'uppercase', chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
@@ -43,24 +52,17 @@ export class LooneyLoginService {
           charCount: selectedChars.length
         };
         // });
-        this.firestore.collection('looney-login-hashes').add(hashData);
+        // this.firestore.collection('looney-login-hashes').add(hashData);
+        const docRef = collectionRef.doc(order.toString()).ref;
+        batch.set(docRef, hashData);
       };
-
-
-
-
-      // Testing results in console
-
-      // console.log(`${i} characters:`);
-      for (let j = 0; j < result.length; j++) {
-        console.log(` Order: ${result[j].order},
-                      Name: ${result[j].name},
-                      charCount: ${result[j].charCount},
-                      HashedString: ${result[j].value}`);
-      }
-
     }
-  }
 
-
+   // Commit the batch
+   batch.commit().then(() => {
+    console.log('All documents in the looney-login-hashes collection have been replaced.');
+  });
+});
 }
+
+  }

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-// import { CountdownService } from 'src/app/services/countdown.service';
-
+import { LooneyLoginService } from 'src/app/services/looney-login.service';
 
 @Component({
   selector: 'app-looney-login-admin',
@@ -9,29 +7,11 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   styleUrls: ['./looney-login-admin.component.css']
 })
 export class LooneyLoginAdminComponent implements OnInit {
-  // countdown = '';
-  // hours = 0;
-  // minutes = 0;
+  constructor(private looneyLoginService: LooneyLoginService) { }
 
-  // constructor(private countdownService: CountdownService) { }
-  constructor() { }
+  ngOnInit(): void { }
 
-  ngOnInit(): void {
-    // this.countdownService.countdown$.subscribe(countdown => {
-    //   this.countdown = countdown;
-    // });
-
-    // this.countdownService.startCountdown(23, 59);
-  }
-
-  // startCountdown(): void {
-  //   this.countdownService.startCountdown(this.hours, this.minutes);
-  //   console.log('Start countdown', this.hours, this.minutes);
-  // }
-
-  // stopCountdown(): void {
-  //   this.countdownService.stopCountdown();
-  //   console.log('Stop countdown');
-  // }
-
+  startGame(): void {
+    this.looneyLoginService.generateHashStrings();
+  };
 }
