@@ -10,10 +10,11 @@ import { LooneyLoginService } from 'src/app/services/looney-login.service';
 export class LoginComponent implements OnInit{
 
   constructor(  private authService: AuthService,
-                private looneyLoginService: LooneyLoginService) { }
+                public looneyLoginService: LooneyLoginService) { }
 
   ngOnInit(): void {
     // console.log('Here it is', this.looneyLoginService.generateHashStrings());
+
 
     }
 

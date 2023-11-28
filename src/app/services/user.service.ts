@@ -17,7 +17,8 @@ export class UserService {
   }
 
   updateCurrentUserPoints(uid: string, points: number) {
-    // update current user points in Firestore
+    console.log('points updated');
+    return this.firestore.collection('users').doc<User>(uid).update({ points001: points });
   }
 
   // other methods related to current user...

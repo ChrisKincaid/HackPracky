@@ -12,6 +12,10 @@ export class LooneyLoginAdminComponent implements OnInit {
   ngOnInit(): void { }
 
   startGame(): void {
-    this.looneyLoginService.generateHashStrings();
+    this.looneyLoginService.startGame();
+  };
+
+  stopGame(): void {
+    this.looneyLoginService.stopGame();
   };
 }

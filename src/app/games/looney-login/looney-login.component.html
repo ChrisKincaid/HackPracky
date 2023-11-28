@@ -8,35 +8,58 @@
 </div>
 
 <div class="containerMain">
+
+  <!-- <div class="startGame">
+    <div class="gameInstructions">
+
+      <button (click)="startGame()">Start Game</button>
+    </div>
+  </div> -->
+
+  <div class="currentGameInfo">
+    <div>
+      Correct Login is worth: points.
+    </div>
+    <div>
+      Enter the correct username and password to win points.
+    </div>
+  </div>
   <div class="conatinerLogin">
     <div class="itemsLogin">
       <form>
         <label for="username">Username:</label>
         <input type="text" id="username" name="username"value="admin">
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
+        <form (submit)="checkPassword(password.value, password)">
+          <input type="password" id="password" name="password" #password>
+          <button type="submit">Submit</button>
+        </form>
 
         <button type="submit">Login</button>
+        <p *ngIf="looneyLoginService.gameStatus$ | async">
+          Current Hash {{ looneyLoginService.hash$ | async }} </p>
+        <!-- <p>Current Hash {{ looneyLoginService.hash$ | async }} </p> -->
       </form>
-      <!-- Create a rest page !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-      <!-- <button (click)="generateHashStrings()">CLICK HERE</button> -->
     </div>
   </div>
 
-    <!-- <div class="countdown">
-      <h2>Countdown Clock</h2>
-      <div>{{ countdown }}</div>
-    </div> -->
-
-    <div class="scoreboard">
-      <h2>Scoreboard</h2>
-      <ul>
-        <li>Player 1: 100 points</li>
-        <li>Player 2: 80 points</li>
-        <li>Player 3: 120 points</li>
-      </ul>
-
-
-
+    <div class="globalPoints">
+      <div class="scoreboard" *ngIf="looneyLoginService.gameStatus$ | async">
+        <h2>Current Game Scoreboard</h2>
+        <ul>
+          <li>Player 1: 100 points</li>
+          <li>Player 2: 80 points</li>
+          <li>Player 3: 120 points</li>
+        </ul>
+      </div>
+      <hr>
+      <div class="scoreboard">
+        <h2>Leader  Board</h2>
+        <ul>
+          <li>Player 1: 100 points</li>
+          <li>Player 2: 80 points</li>
+          <li>Player 3: 120 points</li>
+        </ul>
+      </div>
+    </div>
 </div>

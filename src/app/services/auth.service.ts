@@ -89,7 +89,7 @@ export class AuthService {
         points011: 0, points012: 0, points013: 0, points014: 0, points015: 0,
         points016: 0, points017: 0, points018: 0, points019: 0, points020: 0
       };
-      this.creatUserProfile(user);
+      // this.creatUserProfile(user);
       // Set the login expiration time to 6 hour from now
       const expiresAt = new Date().getTime() + (6 * 60 * 60 * 1000);
       localStorage.setItem('expires_at', JSON.stringify(expiresAt));
