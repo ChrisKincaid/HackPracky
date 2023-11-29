@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, async } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { LooneyLoginService } from 'src/app/services/looney-login.service';
@@ -38,22 +38,35 @@ export class LooneyLoginComponent implements OnInit {
         });
       }
 
-      this.looneyLoginService.getLowestOrderHash().then(hash => {
-        this.hash = hash;
-        this.order = this.looneyLoginService.order;
-        this.cdr.detectChanges();
-        console.log('The current hash ingame ui:', this.hash);
-      });
+      this.updateHash();
+      // this.cdr.detectChanges();
+      // this.looneyLoginService.getLowestOrderHash().then(hash => {
+      //   this.hash = hash;
+      //   this.order = this.looneyLoginService.order;
+      //   this.cdr.detectChanges();
+      //   // console.log('The current hash ingame ui:', this.hash);
+      // });
     });
   } // End of ngOnInit()
 
-  checkPassword(input: string, inputField: HTMLInputElement): void {
+  async updateHash(): Promise<void> {
+    (await this.looneyLoginService.getLowestOrderHash()).subscribe(hash => {
+      this.hash = hash;
+      console.log('The current hash:', this.hash);
+      this.order = this.looneyLoginService.order;
+      this.cdr.detectChanges();
+      // console.log('The current hash ingame ui:', this.hash);
+    });
+  }
+
+  async checkPassword(input: string, inputField: HTMLInputElement): Promise<void>  {
     const hashedInput = CryptoJS.SHA256(input).toString();
     if (hashedInput === this.hash) {
       console.log('The input matches the hash');
-      this.looneyLoginService.removeLowestOrderHash()
       this.toastr.success('YOU GOT A CORRECT PASSWORD!!!!')
+      await this.looneyLoginService.removeLowestOrderHash()
       this.updateUserPoints();
+      await this.updateHash();
 
     } else {
       console.log('The input does not match the hash');
@@ -62,7 +75,7 @@ export class LooneyLoginComponent implements OnInit {
   }
 
   updateUserPoints(): void {
-    console.log('updateUserPoints called');
+    // this.updateHash();
     if (this.firestoreUser) {
       console.log('points001:', this.firestoreUser.points001);
       console.log('order:', this.order);

@@ -5,6 +5,17 @@
   <div *ngIf="firestoreUser">
     {{firestoreUser.userName}} | POINTS: {{firestoreUser.points001}}
   </div>
+  <br>
+  <div>
+
+    <p *ngIf="looneyLoginService.hash$ |async" style="font-size: 11px;">
+      Current Hash {{ looneyLoginService.hash$ | async}}
+    </p>
+    <p *ngIf="looneyLoginService.hash$">
+      Current Order {{ looneyLoginService.order$ | async }}
+    </p>
+
+  </div>
 </div> <!-- headerLoonyLogins END-->
 
 <div class="containerMain">
@@ -29,15 +40,9 @@
 
         <button type="submit">Login</button>
       </form>
-      <p *ngIf="looneyLoginService.hash$" style="font-size: 11px;">
-        Current Hash {{ looneyLoginService.hash$ | async}}
-      </p>
-
-      <p *ngIf="looneyLoginService.hash$">
-        Current Order {{ looneyLoginService.order$ | async }}
-      </p>
     </div>
   </div> <!-- conatinerLogin END -->
+
 
   <div class="globalPoints">
     <div class="scoreboard" *ngIf="looneyLoginService.gameStatus$ | async">

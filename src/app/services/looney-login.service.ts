@@ -13,9 +13,9 @@ export class LooneyLoginService {
   gameStatus: boolean;
 
 
-  private hashSubject:  BehaviorSubject<string> = new BehaviorSubject<string>('');
-  order:                number;
-  hash$:                Observable<string> = this.hashSubject.asObservable();
+  hashSubject:  BehaviorSubject<string> = new BehaviorSubject<string>('');
+  order:        number;
+  hash$:        Observable<string> = this.hashSubject.asObservable();
 
   constructor(private toastr: ToastrService,
               private firestore: AngularFirestore) {
@@ -29,7 +29,7 @@ export class LooneyLoginService {
 
   async startGame(): Promise<void>  {
     await this.getLowestOrderHash()
-    console.log('The current hash:', this.hashSubject);
+    // console.log('The current hash:', this.hashSubject);
     this.firestore.doc('games/looneyLoginGameStatus')
       .set({ gameStatus: true }, { merge: true })
       .then(() => {
@@ -53,22 +53,22 @@ export class LooneyLoginService {
 
   }
 
-  getLowestOrderHash(): Promise<any> {
+  async getLowestOrderHash(): Promise<Observable<string>> {
     return this.firestore.collection('looney-login-hashes', ref => ref
       .orderBy('order').limit(1))
       .get()
-      .toPromise()
-      .then(querySnapshot => {
-        if (!querySnapshot.empty) {
-          const data = querySnapshot.docs[0].data() as any;
-          this.hashSubject.next(data.value);
-          this.order = data.order;
-          console.log('The lowest order hash:', this.hashSubject.value);
-          return data.value;
-        } else {
-          throw new Error('No documents found');
-        }
-      });
+      .pipe(
+        map(querySnapshot => {
+          if (!querySnapshot.empty) {
+            const data = querySnapshot.docs[0].data() as any;
+            this.hashSubject.next(data.value);
+            this.order = data.order;
+            return data.value;
+          } else {
+            throw new Error('No documents found');
+          }
+        })
+      );
   }
 
   removeLowestOrderHash(): Promise<void> {
@@ -85,6 +85,7 @@ export class LooneyLoginService {
         }
       });
   }
+
   //Generating fake password hashes for game and uploading to db
   generateHashStrings(): void {
     const collectionRef = this.firestore.collection('looney-login-hashes');
