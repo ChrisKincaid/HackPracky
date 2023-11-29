@@ -40,14 +40,11 @@ export class AuthService {
     });
 
     this.loadUser();
-      // this.loggedIn = new BehaviorSubject<boolean>(false);
-      // this.isLoggedInGuard = false;
 
   } // end constructor------------------------------------------------
 
   getUser(): Observable<User | null>{
     return this.user.asObservable();
-    // console.log(this.user);
   }
 
   async creatUserProfile(user: User){
@@ -68,8 +65,9 @@ export class AuthService {
         points016: 0, points017: 0, points018: 0, points019: 0, points020: 0
       };
       this.creatUserProfile(user);
-      this.toastr.success('Registration Successfull');
-      this.toastr.success('Please do not forget your password. There is currently no password reset options');
+      this.toastr.success(  'Registration Successfull');
+      this.toastr.success(  'Please do not forget your password.' +
+                            'There is currently no password reset options');
       this.router.navigate(['/home']);
     }).catch(error => {
       this.toastr.error('Registration Failed');
@@ -78,7 +76,6 @@ export class AuthService {
   }
 
   loginEmail(username: string, email: string, password: string){
-    // console.log(email, password);
     return this.afAuth.signInWithEmailAndPassword(email, password).then(logRef => {
       const user: User = {
         uid: logRef.user.uid,
@@ -89,12 +86,10 @@ export class AuthService {
         points011: 0, points012: 0, points013: 0, points014: 0, points015: 0,
         points016: 0, points017: 0, points018: 0, points019: 0, points020: 0
       };
-      // this.creatUserProfile(user);
-      // Set the login expiration time to 6 hour from now
+      // Set the login expiration time to 6 hour from login time
       const expiresAt = new Date().getTime() + (6 * 60 * 60 * 1000);
       localStorage.setItem('expires_at', JSON.stringify(expiresAt));
 
-      // this.loadUser();???
       this.loggedIn.next(true);
       this.isLoggedInGuard = true;
 
@@ -140,10 +135,6 @@ export class AuthService {
       localStorage.removeItem('user');
       localStorage.removeItem('expires_at');
 
-      // this.loggedIn.next(false);
-      // this.isLoggedInGuard = false;
-
-      // this.router.navigate(['/login']);
       this.toastr.success('You are signed out');
     });
   }
@@ -151,17 +142,4 @@ export class AuthService {
   isLoggedIn(){
     return this.loggedIn.asObservable();
   }
-
-  // registration(email: string, password: string)
-  // registration(email: string, password: string){
-  //   this.afAuth.createUserWithEmailAndPassword(email, password).then(logRef => {
-  //     this.toastr.success('Registration Successfull');
-  //     this.router.navigate(['/login']);
-  //   }).catch(error => {
-  //     this.toastr.error(error);
-  //     this.router.navigate(['/registration']);
-  //   }
-  //   );
-  // }
-
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import * as CryptoJS from 'crypto-js';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, map } from 'rxjs';
+import * as CryptoJS from 'crypto-js';
 
 
 @Injectable({
@@ -11,9 +11,11 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 export class LooneyLoginService {
   gameStatus$: Observable<boolean>;
   gameStatus: boolean;
-  private hashSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  hash$: Observable<string> = this.hashSubject.asObservable();
-  order: number;
+
+
+  private hashSubject:  BehaviorSubject<string> = new BehaviorSubject<string>('');
+  order:                number;
+  hash$:                Observable<string> = this.hashSubject.asObservable();
 
   constructor(private toastr: ToastrService,
               private firestore: AngularFirestore) {
@@ -23,38 +25,33 @@ export class LooneyLoginService {
               this.gameStatus$.subscribe(gameStatus => {
                 this.gameStatus = gameStatus;
               });
-            }
+            } // End of constructor()
 
-            async startGame(): Promise<void>  {
-              await this.getLowestOrderHash()
-              console.log('The current hash:', this.hashSubject);
-              this.firestore.doc('games/looneyLoginGameStatus')
-              .set({ gameStatus: true }, { merge: true })
-              .then(() => {
-                this.toastr.success('Game started', 'Looney Login');
-              }).catch((error) => {
-                this.toastr.error('Something went wrong. Game not started',
-                 'Looney Login');
-              });
-              console.log('The current hash in service:', this.hashSubject);
-            }
+  async startGame(): Promise<void>  {
+    await this.getLowestOrderHash()
+    console.log('The current hash:', this.hashSubject);
+    this.firestore.doc('games/looneyLoginGameStatus')
+      .set({ gameStatus: true }, { merge: true })
+      .then(() => {
+        this.toastr.success('Game started', 'Looney Login');
+      }).catch((error) => {
+      this.toastr.error('Something went wrong. Game not started',
+        'Looney Login');
+      });
+  }
 
-            stopGame(): void {
-              this.generateHashStrings()
-              this.firestore.doc('games/looneyLoginGameStatus')
-              .set({ gameStatus: false }, { merge: false })
-              .then(() => {
-                this.toastr.success('Game ended', 'Looney Login');
-              }).catch((error) => {
-                this.toastr.error('Something went wrong. Game not ended',
-                 'Looney Login');
-              });
-              // this.getLowestOrderHash()
+  stopGame(): void {
+    this.generateHashStrings()
+    this.firestore.doc('games/looneyLoginGameStatus')
+    .set({ gameStatus: false }, { merge: false })
+    .then(() => {
+      this.toastr.success('Game ended', 'Looney Login');
+    }).catch((error) => {
+      this.toastr.error('Something went wrong. Game not ended',
+        'Looney Login');
+    });
 
-            }
-
-
-
+  }
 
   getLowestOrderHash(): Promise<any> {
     return this.firestore.collection('looney-login-hashes', ref => ref
@@ -88,7 +85,7 @@ export class LooneyLoginService {
         }
       });
   }
-//Generating fake password hashes for game and uploading to db
+  //Generating fake password hashes for game and uploading to db
   generateHashStrings(): void {
     const collectionRef = this.firestore.collection('looney-login-hashes');
     const batch = this.firestore.firestore.batch();
@@ -140,7 +137,7 @@ export class LooneyLoginService {
 
       // Commit the batch
       batch.commit().then(() => {
-        console.log('All documents in the looney-login-hashes collection have been replaced.');
+        // console.log('All password hashes replaced.');
       });
     });
   }

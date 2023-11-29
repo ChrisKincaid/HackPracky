@@ -17,10 +17,8 @@ constructor(private authService: AuthService) { }
   ngOnInit(): void {
 }
 
-
 onSubmit(formValue: any){
   this.authService.register(formValue.username, formValue.email, formValue.password);
-  // console.log(formValue);
 }
 
 get passwordsMatch(): boolean {

@@ -17,6 +17,4 @@ export class UsersService {
   getUserData(uid: string): Observable<User> {
     return this.firestore.collection('users').doc<User>(uid).valueChanges();
   }
-
-  // other methods related to other users...
 }

@@ -13,14 +13,11 @@ export class LoginComponent implements OnInit{
                 public looneyLoginService: LooneyLoginService) { }
 
   ngOnInit(): void {
-    // console.log('Here it is', this.looneyLoginService.generateHashStrings());
-
 
     }
 
     onSubmit(formValue: any){
       this.authService.loginEmail(formValue.username, formValue.email, formValue.password);
-      // console.log(formValue);
     }
 
 }

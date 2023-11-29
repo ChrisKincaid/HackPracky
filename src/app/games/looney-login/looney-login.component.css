@@ -3,8 +3,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  /* background-color: #e80000; */
-  /* border-bottom: 1px solid #e5e5e5; */
   color: #000000;
   text-shadow:
   0 0 7px #ccc,
@@ -37,9 +35,6 @@
   align-items: center;
   min-width: 200px;
 
-  /* padding: 0 20px; */
-  /* background-color: #e80000; */
-  /* border-bottom: 1px solid #e5e5e5; */
   color: #000000;
   text-shadow:
   0 0 7px #ccc,
@@ -68,16 +63,9 @@
 .btn-login {
   width: 100%;
   border-radius: 50px;
-  /* margin: 5px; */
-  /* align-items: center; */
   margin-right: 10px;
   margin-top: 5px;
 }
-
-/* .itemsLogin {
-  margin-top: 10px;
-  margin-bottom: 10px;
-} */
 
 .globalPoints {
   background-color: #f3f3f3;

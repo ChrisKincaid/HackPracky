@@ -30,7 +30,6 @@ constructor(public authService: AuthService,
     this.authUser$.subscribe(user => {
       if (user) {
         this.userService.getCurrentUserData(user.uid).subscribe(firestoreUser => {
-          // console.log(firestoreUser); // this should log the entire user document data
           this.firestoreUser = firestoreUser;
         });
       }
