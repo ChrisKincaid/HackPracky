@@ -5,26 +5,28 @@
   <div *ngIf="firestoreUser">
     {{firestoreUser.userName}} | POINTS: {{firestoreUser.points001}}
   </div>
-  <br>
-  <div>
-
-    <p *ngIf="looneyLoginService.hash$ |async" style="font-size: 11px;">
-      Current Hash {{ looneyLoginService.hash$ | async}}
-    </p>
-    <p *ngIf="looneyLoginService.hash$">
-      Current Order {{ looneyLoginService.order$ | async }}
-    </p>
-
-  </div>
 </div> <!-- headerLoonyLogins END-->
 
 <div class="containerMain">
   <div class="currentGameInfo">
     <div>
-      Correct Login is worth: points.
-    </div>
-    <div>
       Enter the correct username and password to win points.
+    </div>
+    <br>
+    <div>
+      <h3>Current password details:</h3>
+      <p *ngIf="looneyLoginService.hash$ |async">
+        Current password points: {{looneyLoginService.order * 10 }}
+      </p>
+      <p *ngIf="currentPWInfo">
+        Characters used: {{looneyLoginService.name.value}}
+      </p>
+      <p *ngIf="currentPWInfo">
+        Passowrd length: {{looneyLoginService.charCount}}
+      </p>
+      <!-- <p *ngIf="looneyLoginService.hash$ |async" style="font-size: 11px;">
+        Current Hash {{ looneyLoginService.hash$ | async}}
+      </p> -->
     </div>
   </div> <!-- currentGameInfo End -->
   <div class="conatinerLogin">

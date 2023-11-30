@@ -8,7 +8,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import * as CryptoJS from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
 
-import { CredsLooneyLogins } from 'src/app/interfaces/creds-looney-logins';
+// import { CredsLooneyLogins } from 'src/app/interfaces/creds-looney-logins';
 
 @Component({
   selector: 'app-looney-login',
@@ -21,6 +21,7 @@ export class LooneyLoginComponent implements OnInit {
   countdown:      string = '00.00.00';
   hash:           string;
   order:          number;
+  currentPWInfo: any;
 
   constructor(public looneyLoginService:  LooneyLoginService,
               public authService:         AuthService,
@@ -38,31 +39,27 @@ export class LooneyLoginComponent implements OnInit {
         });
       }
 
+      this.looneyLoginService.currentPWInfo$.subscribe(currentPWInfo => {
+        console.log('Received currentPWInfo:', currentPWInfo);
+        this.currentPWInfo = currentPWInfo;
+      });
+
       this.updateHash();
-      // this.cdr.detectChanges();
-      // this.looneyLoginService.getLowestOrderHash().then(hash => {
-      //   this.hash = hash;
-      //   this.order = this.looneyLoginService.order;
-      //   this.cdr.detectChanges();
-      //   // console.log('The current hash ingame ui:', this.hash);
-      // });
     });
   } // End of ngOnInit()
 
   async updateHash(): Promise<void> {
     (await this.looneyLoginService.getLowestOrderHash()).subscribe(hash => {
       this.hash = hash;
-      console.log('The current hash:', this.hash);
       this.order = this.looneyLoginService.order;
+      console.log('The current order #:', this.order);
       this.cdr.detectChanges();
-      // console.log('The current hash ingame ui:', this.hash);
     });
   }
 
   async checkPassword(input: string, inputField: HTMLInputElement): Promise<void>  {
     const hashedInput = CryptoJS.SHA256(input).toString();
     if (hashedInput === this.hash) {
-      console.log('The input matches the hash');
       this.toastr.success('YOU GOT A CORRECT PASSWORD!!!!')
       await this.looneyLoginService.removeLowestOrderHash()
       this.updateUserPoints();
@@ -75,7 +72,6 @@ export class LooneyLoginComponent implements OnInit {
   }
 
   updateUserPoints(): void {
-    // this.updateHash();
     if (this.firestoreUser) {
       console.log('points001:', this.firestoreUser.points001);
       console.log('order:', this.order);
@@ -83,5 +79,4 @@ export class LooneyLoginComponent implements OnInit {
       this.userService.updateCurrentUserPoints(this.firestoreUser.uid, newPoints);
     }
   }
-
 } // End of export class LooneyLoginComponent implements OnInit

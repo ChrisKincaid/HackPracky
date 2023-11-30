@@ -40,6 +40,48 @@ button {
   cursor: pointer;
 }
 
+.adminGamebtns {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.btnHome {
+  background-color: rgba(255, 255, 255, 0.639);
+  color: black;
+  border-style: solid;
+  border-color: black;
+  border-radius: 5px;
+  border-width: 1px;
+}
+
+.btnHome:hover {
+  background-color: rgba(202, 202, 202, 0.639)
+}
+
 button:hover {
   background-color: #45a049;
+}
+
+.btnNewGame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnNewGame:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.btnNewGame:disabled:hover {
+  background-color: grey;
+}
+
+.btnStopGame {
+  background-color: #f44336;
+}
+
+.btnStopGame:hover {
+  background-color: #da190b;
 }

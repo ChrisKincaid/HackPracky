@@ -2,7 +2,27 @@
   <button class="btnHome marg5" routerLink="/game-admin">ADMIN HOME</button>
 </div>
 
-<button class="btnNewGame marg5" (click)="startGame()">START NEW GAME</button>
-<button class="btnNewGame marg5" (click)="stopGame()">END GAME</button>
+<div class="containerMain adminGamebtns">
+
+  <button class="btnNewGame marg5"
+  (click)="startGame()"
+  [disabled]="(looneyLoginService.gameStatus$ | async)">
+  START NEW GAME - DEFAULT MODE
+</button>
+<br>
+<button class="btnNewGame marg5"
+(click)="startGameEASY()"
+[disabled]="(looneyLoginService.gameStatus$ | async)">
+START NEW GAME - EASY MODE
+</button>
+<br>
+<button class="btnNewGame marg5"
+[disabled]="(looneyLoginService.gameStatus$ | async)"
+(click)="startGameSUPEREASY()">
+START NEW GAME - SUPER EASY MODE
+</button>
+<br>
+<button class="btnStopGame marg5" (click)="stopGame()">END GAME</button>
+</div>
 
 
