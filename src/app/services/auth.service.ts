@@ -29,10 +29,15 @@ export class AuthService {
           uid: user.uid,
           email: user.email,
           userName: user.email,
-          points001: 0, points002: 0, points003: 0, points004: 0, points005: 0,
-          points006: 0, points007: 0, points008: 0, points009: 0, points010: 0,
-          points011: 0, points012: 0, points013: 0, points014: 0, points015: 0,
-          points016: 0, points017: 0, points018: 0, points019: 0, points020: 0
+          admin: false,
+          points001: 0,     points002: 0,     points003: 0,     points004: 0,     points005: 0,
+          points006: 0,     points007: 0,     points008: 0,     points009: 0,     points010: 0,
+          points011: 0,     points012: 0,     points013: 0,     points014: 0,     points015: 0,
+          points016: 0,     points017: 0,     points018: 0,     points019: 0,     points020: 0,
+          points001Best: 0, points002Best: 0, points003Best: 0, points004Best: 0, points005Best: 0,
+          points006Best: 0, points007Best: 0, points008Best: 0, points009Best: 0, points010Best: 0,
+          points011Best: 0, points012Best: 0, points013Best: 0, points014Best: 0, points015Best: 0,
+          points016Best: 0, points017Best: 0, points018Best: 0, points019Best: 0, points020Best: 0
         })
       } else {
         this.user.next(null);
@@ -59,10 +64,15 @@ export class AuthService {
         uid: logRef.user.uid,
         email: logRef.user.email,
         userName: username,
-        points001: 0, points002: 0, points003: 0, points004: 0, points005: 0,
-        points006: 0, points007: 0, points008: 0, points009: 0, points010: 0,
-        points011: 0, points012: 0, points013: 0, points014: 0, points015: 0,
-        points016: 0, points017: 0, points018: 0, points019: 0, points020: 0
+        admin: false,
+        points001: 0,     points002: 0,     points003: 0,     points004: 0,     points005: 0,
+        points006: 0,     points007: 0,     points008: 0,     points009: 0,     points010: 0,
+        points011: 0,     points012: 0,     points013: 0,     points014: 0,     points015: 0,
+        points016: 0,     points017: 0,     points018: 0,     points019: 0,     points020: 0,
+        points001Best: 0, points002Best: 0, points003Best: 0, points004Best: 0, points005Best: 0,
+        points006Best: 0, points007Best: 0, points008Best: 0, points009Best: 0, points010Best: 0,
+        points011Best: 0, points012Best: 0, points013Best: 0, points014Best: 0, points015Best: 0,
+        points016Best: 0, points017Best: 0, points018Best: 0, points019Best: 0, points020Best: 0
       };
       this.creatUserProfile(user);
       this.toastr.success(  'Registration Successfull');
@@ -81,10 +91,15 @@ export class AuthService {
         uid: logRef.user.uid,
         email: logRef.user.email,
         userName: logRef.user.email,
-        points001: 0, points002: 0, points003: 0, points004: 0, points005: 0,
-        points006: 0, points007: 0, points008: 0, points009: 0, points010: 0,
-        points011: 0, points012: 0, points013: 0, points014: 0, points015: 0,
-        points016: 0, points017: 0, points018: 0, points019: 0, points020: 0
+        admin: false,
+        points001: 0,     points002: 0,     points003: 0,     points004: 0,     points005: 0,
+        points006: 0,     points007: 0,     points008: 0,     points009: 0,     points010: 0,
+        points011: 0,     points012: 0,     points013: 0,     points014: 0,     points015: 0,
+        points016: 0,     points017: 0,     points018: 0,     points019: 0,     points020: 0,
+        points001Best: 0, points002Best: 0, points003Best: 0, points004Best: 0, points005Best: 0,
+        points006Best: 0, points007Best: 0, points008Best: 0, points009Best: 0, points010Best: 0,
+        points011Best: 0, points012Best: 0, points013Best: 0, points014Best: 0, points015Best: 0,
+        points016Best: 0, points017Best: 0, points018Best: 0, points019Best: 0, points020Best: 0
       };
       // Set the login expiration time to 6 hour from login time
       const expiresAt = new Date().getTime() + (6 * 60 * 60 * 1000);

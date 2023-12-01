@@ -2,6 +2,7 @@ export interface User {
   userName: string;
   email: string;
   uid: string;
+  admin: boolean;
   points001: number;
   points002: number;
   points003: number;
@@ -22,4 +23,24 @@ export interface User {
   points018: number;
   points019: number;
   points020: number;
+  points001Best: number;
+  points002Best: number;
+  points003Best: number;
+  points004Best: number;
+  points005Best: number;
+  points006Best: number;
+  points007Best: number;
+  points008Best: number;
+  points009Best: number;
+  points010Best: number;
+  points011Best: number;
+  points012Best: number;
+  points013Best: number;
+  points014Best: number;
+  points015Best: number;
+  points016Best: number;
+  points017Best: number;
+  points018Best: number;
+  points019Best: number;
+  points020Best: number;
 }

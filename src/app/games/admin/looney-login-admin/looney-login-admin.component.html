@@ -1,3 +1,11 @@
+<div class="headerAdmin">
+  <div>
+    LOONEY LOGINS
+  </div>
+  <div *ngIf="firestoreUser">
+    {{firestoreUser.userName}}
+  </div>
+</div> <!-- headerLoonyLogins END-->
 <div class="containerMain">
   <button class="btnHome marg5" routerLink="/game-admin">ADMIN HOME</button>
 </div>
