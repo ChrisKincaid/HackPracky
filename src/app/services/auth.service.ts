@@ -86,7 +86,9 @@ export class AuthService {
   }
 
   loginEmail(username: string, email: string, password: string){
-    return this.afAuth.signInWithEmailAndPassword(email, password).then(logRef => {
+    return this.afAuth.signInWithEmailAndPassword(email, password)
+
+    .then(logRef => {
       const user: User = {
         uid: logRef.user.uid,
         email: logRef.user.email,
@@ -111,7 +113,16 @@ export class AuthService {
       this.router.navigate(['/home']);
       this.toastr.success('Sign in Successfull');
     }).catch(error => {
-      this.toastr.error('Sign in Failed');
+      if (error.code === 'auth/email-already-in-use') {
+        this.toastr.error('The email address is already in use by another account.');
+      } else if (error.code === 'auth/invalid-email') {
+        this.toastr.error('The email address is not valid.');
+      } else if (error.code === 'auth/weak-password') {
+        this.toastr.error('The password is too weak.');
+      } else {
+        this.toastr.error('Registration failed.');
+      }
+      this.router.navigate(['/registration']);
     });
   }
 

@@ -119,6 +119,12 @@ export class LooneyLoginComponent implements OnInit {
   // }
 
   async checkPassword(input: string, inputField: HTMLInputElement): Promise<void>  {
+    if (this.authService.isLoggedIn) {
+      this.toastr.success('Must be logged in to play.', '', {
+        positionClass: 'toast-center-center'
+      });
+      return;
+    }
     const hashedInput = CryptoJS.SHA256(input).toString();
     console.log('This hash check:', this.currentPWInfo[0]?.value);
 

@@ -17,6 +17,7 @@ ____ ____ ____ ____ ____ _________ ____ ____ ____ ____ ____
 <div class="containerMain containerheaderFooter">
 
 <button class="btnNav marg5" routerLink="/home">HOME</button>
+<button *ngIf="isAdmin" class="btnNav marg5" routerLink="/game-admin">ADMIN HOME</button>
 
 <div class="navBtns">
   <button *ngIf="(authUser$ | async)"

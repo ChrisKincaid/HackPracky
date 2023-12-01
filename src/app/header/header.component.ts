@@ -14,15 +14,28 @@ import { User } from '../interfaces/user';
 export class HeaderComponent implements OnInit{
   authUser$: Observable<User | null>;
   firestoreUser: User | null;
+  isAdmin: boolean = false;
 
-  currentUrl: string = window.location.href;
-  currentGame = this.currentUrl.substring(this.currentUrl.lastIndexOf("/") + 1);
+  // currentUrl: string = window.location.href;
+  // currentGame = this.currentUrl.substring(this.currentUrl.lastIndexOf("/") + 1);
 
 
 
 
 constructor(public authService: AuthService,
-            public userService: UserService) {}
+            public userService: UserService) {
+
+              this.authService.getUser().subscribe(user => {
+                if (user) {
+                  this.userService.getCurrentUserData(user.uid).subscribe(firestoreUser => {
+                    this.firestoreUser = firestoreUser;
+                    if (this.firestoreUser?.admin) {
+                      this.isAdmin = true;
+                    }
+                  });
+                }
+              });
+            }
 
 
   ngOnInit(): void {
