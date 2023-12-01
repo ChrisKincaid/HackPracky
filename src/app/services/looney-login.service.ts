@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
+// import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 // import { CredsLooneyLogins } from 'src/app/interfaces/creds-looney-logins';
 
@@ -14,6 +15,10 @@ export class LooneyLoginService {
   gameStatus$: Observable<boolean>;
   gameStatus: boolean;
 
+  getGameDetails(): Observable<any[]> {
+    return this.firestore.collection('looney-login-hashes').valueChanges();
+  }
+
   hashSubject:  BehaviorSubject<string> = new BehaviorSubject<string>('');
   order:        number;
   hash$:        Observable<string> = this.hashSubject.asObservable();
@@ -23,9 +28,11 @@ export class LooneyLoginService {
 
   constructor(private toastr: ToastrService,
               private firestore: AngularFirestore) {
-                this.gameStatus$ = this.firestore.doc<{ gameStatus: boolean }>('games/looneyLoginGameStatus').valueChanges()
-              .pipe(map(doc => doc.gameStatus));
-
+                this.gameStatus$ = this.firestore.doc<{
+                  gameStatus: boolean }>('games/looneyLoginGameStatus')
+                  .valueChanges()
+                  .pipe(map(doc => doc.gameStatus
+                ));
               this.gameStatus$.subscribe(gameStatus => {
                 this.gameStatus = gameStatus;
               });

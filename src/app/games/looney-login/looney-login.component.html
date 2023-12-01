@@ -8,28 +8,8 @@
 </div> <!-- headerLoonyLogins END-->
 
 <div class="containerMain">
-  <div class="currentGameInfo">
-    <div>
-      Enter the correct username and password to win points.
-    </div>
-    <br>
-    <div>
-      <h3>Current password details:</h3>
-      <p *ngIf="looneyLoginService.hash$ |async">
-        Current password points: {{looneyLoginService.order * 10 }}
-      </p>
-      <p *ngIf="currentPWInfo">
-        Characters used: {{looneyLoginService.name.value}}
-      </p>
-      <p *ngIf="currentPWInfo">
-        Passowrd length: {{looneyLoginService.charCount}}
-      </p>
-      <!-- <p *ngIf="looneyLoginService.hash$ |async" style="font-size: 11px;">
-        Current Hash {{ looneyLoginService.hash$ | async}}
-      </p> -->
-    </div>
-  </div> <!-- currentGameInfo End -->
-  <div class="conatinerLogin">
+  <!-- <div class="noGameInProgress"></div> -->
+  <div class="conatinerLogin" *ngIf="looneyLoginService.gameStatus$ | async">
     <div class="itemsLogin">
       <form>
         <label for="username">Username:</label>
@@ -37,32 +17,140 @@
 
         <form (submit)="checkPassword(password.value, password)">
           <input type="password" id="password" name="password" #password>
-          <button type="submit">Submit</button>
+          <button type="submit">Login</button>
         </form>
-
-        <button type="submit">Login</button>
       </form>
     </div>
   </div> <!-- conatinerLogin END -->
+  <div class="currentGameInfo" *ngIf="looneyLoginService.gameStatus$ | async">
+    <div>
+      Enter the correct username and password to win points.
+    </div>
+    <br>
+    <div>
+      <h3>Current password details:</h3>
+      <p *ngIf="gameDetails$ | async as currentPWInfo">
+        Current password points: {{ currentPWInfo[0]?.order * 10 }}
+      </p>
+      <p *ngIf="gameDetails$ | async as currentPWInfo">
+        Characters used: {{ currentPWInfo[0]?.name }}
+      </p>
+      <p *ngIf="gameDetails$ | async as currentPWInfo">
+        Password length: {{ currentPWInfo[0]?.charCount }}
+      </p>
+      <br>
+      <h4>Hints:</h4>
+      <p>The username is always admin.</p>
+    </div>
+  </div> <!-- currentGameInfo End -->
+
 
 
   <div class="globalPoints">
     <div class="scoreboard" *ngIf="looneyLoginService.gameStatus$ | async">
       <h2>Current Game Scoreboard</h2>
-      <ul>
-        <li>Player 1: 100 points</li>
-        <li>Player 2: 80 points</li>
-        <li>Player 3: 120 points</li>
-      </ul>
+      <ng-container *ngIf="scoreboard$ | async as players">
+        <ul *ngIf="players.length > 0; else noPlayers">
+          <li *ngFor="let player of players">
+            {{ player.userName }}: {{ player.points001 }} points
+          </li>
+        </ul>
+        <ng-template #noPlayers>
+          <p>No players have scored any points.</p>
+        </ng-template>
+      </ng-container>
     </div>
+    <div class="scoreboard" *ngIf="!(looneyLoginService.gameStatus$ | async)">
+      <h2>This game is currently not in progress.</h2>
+      <p>If you are seeing this message, then no game is currently in progress.</p>
+      <p>
+        Currently, games are ran only while being monitored by a live administrator.
+        In the future we plan to have games running 24/7 or at least on a schedule.
+      </p>
+      <p>Please feel free to check back later to see if a game is in progress.</p>
+      <p>If you are new to Looney Logins, the game details can be found below.</p>
+    </div>
+    <br>
     <hr>
+    <br>
     <div class="scoreboard">
-      <h2>Leader Board</h2>
+      <h2>Looney logins Leader Board</h2>
       <ul>
         <li>Player 1: 100 points</li>
         <li>Player 2: 80 points</li>
         <li>Player 3: 120 points</li>
       </ul>
     </div>
+    <br>
+    <hr>
+    <br>
+    <div class="scoreboard">
+      <h2>Looney logins Game Details</h2>
+      <h3>Player permisions:</h3>
+      <br>
+      <p>
+        A player is anyone who has signed up for an account with Hacky Pracky by entering their email and other information on the sign up page.
+      </p>
+      <br>
+      <p>Players can play the game by attempting to enter the correct username and password.</p>
+      <br>
+      <p>Players have written permision as stated here for the follow:</p>
+      <br>
+      <ol>
+        <li>
+          Players my try to guess the correct username and password on <b>THIS PAGE ONLY</b>.
+          <b>NO ONE has been given permission to and may not attempt to guess the correct username and password on any other page of this website.</b> Doing so will result in a ban from the game and the website, and possible legal action. PLEASE, this is for a group of ethical hackers trying to have some fun, hacking this website and forcing us to shut it down will not be fun for anyone and it will not impress anyone, please do not be a jerk.
+        </li>
+        <li>
+          Players are here by given permission to try and find the correct user names and password on <b>THIS PAGE ONLY</b> by use of manual or automated methods which do not involve the website infrastructure, directly accessing the data base or data base services, accessing any administrative accounts or pages, or accesing any website hosting serives.
+        <br>
+          In other words players can try to guess the correct username and password by finding ways to enter them into the fields provided, and nothing else.
+        </li>
+        <li>
+          If any of this is unclear, please contact the main site administrator for clarity at  christophergkincaid@msn.com
+        </li>
+      </ol>
+      <br>
+      <h3>Instructions and Details:</h3>
+      <br>
+      <br>
+      <h4>Quick summary:</h4>
+       The game is simple, enter the correct username and password to win points. Once a correct username and password have been entered, a new username and password are created. The game ends when the administrator ends the game or when all the correct usernames and passwords have been entered. The player with the most points wins.
+      <br>
+      <br>
+      Near the top of the page the current loged in user's name and points for the current game are displayed. Note: if no game is in progress the points will show 0.
+      <br>
+      <br>
+      While a game is in progress there will be a field for a username, a field for a password, and a login button displayed. During a game the players enter usernames and passwords into the fields click the login button (or press enter if they are focused on one of the fields) to see if they are correct. If the username and password are correct the player will be awarded points and the game will continue. If the username and password are incorrect the player will not be awarded points and the game will continue.
+      <br>
+      <br>
+      At the end of the game, the player with the most points wins.
+      <br>
+      <br>
+      The game can end in one of two ways:
+      <br>
+      <br>
+      <ol>
+        <li>
+          The game ends when the administrator ends the game.
+        </li>
+        <li>
+          The game ends when all the correct usernames and passwords have been entered.
+        </li>
+      </ol>
+      <br>
+      <br>
+      <h3>Hints</h3>
+      <br>
+      <b>Hints are super important to being successful at this game.</b>
+      <p>
+        The hints are displayed in the "Current password details" section of the page. The hints are updated every time a player enters a correct username and password and a new password is created. The hints are updated in real time, so if you are playing the game and you see the hints change, you know that someone else has entered a username and password and the hints have changed.
+      </p>
+      <br>
+      <p>
+        The hints let the player know details about the currrent username and password. They can show the length of the username or password, the characters used in the username or password, or other details about the username or password. Watching this section is VITAL to winning the game.
+      </p>
+    </div>
+
   </div> <!-- globalPoints END -->
 </div> <!-- containerMain END -->
