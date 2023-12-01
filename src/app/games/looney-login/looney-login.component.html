@@ -17,7 +17,7 @@
 
         <form (submit)="checkPassword(password.value, password)">
           <input type="password" id="password" name="password" #password>
-          <button type="submit">Login</button>
+          <button class="btnLogin marg5" type="submit">Login</button>
         </form>
       </form>
     </div>
@@ -37,6 +37,9 @@
       </p>
       <p *ngIf="gameDetails$ | async as currentPWInfo">
         Password length: {{ currentPWInfo[0]?.charCount }}
+      </p>
+      <p *ngIf="gameDetails$ | async as currentPWInfo" style="font-size: 12px;">
+        Current: {{ currentPWInfo[0]?.value }}
       </p>
       <br>
       <h4>Hints:</h4>

@@ -65,7 +65,11 @@ export class LooneyLoginComponent implements OnInit {
   ngOnInit(): void {
 
     // this.gameDetails$ = this.firestore.collection("looney-login-hashes").valueChanges();
-    this.gameDetails$ = this.looneyLoginService.getGameDetails();
+    this.gameDetails$ = this.looneyLoginService.getGameDetails()
+
+    this.gameDetails$.subscribe(gameDetails => {
+      this.currentPWInfo = gameDetails;
+    });
 
 
     this.authUser$ = this.authService.getUser();
@@ -77,11 +81,11 @@ export class LooneyLoginComponent implements OnInit {
       }
 
       this.looneyLoginService.currentPWInfo$.subscribe(currentPWInfo => {
-        console.log('Received currentPWInfo:', currentPWInfo);
         this.currentPWInfo = currentPWInfo;
+        console.log('currentPWInfo:', currentPWInfo);
       });
 
-      this.updateHash();
+      // this.updateHash();
     });
 
     this.scoreboard$ = this.firestore.collection(
@@ -103,22 +107,27 @@ export class LooneyLoginComponent implements OnInit {
 
   } // End of ngOnInit()
 
-  async updateHash(): Promise<void> {
-    (await this.looneyLoginService.getLowestOrderHash()).subscribe(hash => {
-      this.hash = hash;
-      this.order = this.looneyLoginService.order;
-      console.log('The current order #:', this.order);
-      this.cdr.detectChanges();
-    });
-  }
+  // async updateHash(): Promise<void> {
+  //   // debugger
+  //   (await this.looneyLoginService.getLowestOrderHash()).subscribe(hash => {
+  //     this.hash = hash;
+  //     // console.log('This:', this);
+  //     this.order = this.looneyLoginService.order;
+  //     // console.log('The hash:', this.hash);
+  //     this.cdr.detectChanges();
+  //   });
+  // }
 
   async checkPassword(input: string, inputField: HTMLInputElement): Promise<void>  {
     const hashedInput = CryptoJS.SHA256(input).toString();
-    if (hashedInput === this.hash) {
+    console.log('This hash check:', this.currentPWInfo[0]?.value);
+
+    if (hashedInput === this.currentPWInfo[0]?.value) {
       this.toastr.success('YOU GOT A CORRECT PASSWORD!!!!')
-      await this.looneyLoginService.removeLowestOrderHash()
-      this.updateUserPoints();
-      await this.updateHash();
+      this.looneyLoginService.removeLowestOrderHash().then(() => {
+        this.updateUserPoints();
+        // this.updateHash();
+      });
 
     } else {
       const randomMessage = this.messages[Math.floor(Math.random() * this.messages.length)];
@@ -129,12 +138,8 @@ export class LooneyLoginComponent implements OnInit {
 
   updateUserPoints(): void {
     if (this.firestoreUser) {
-      console.log('points001:', this.firestoreUser.points001);
-      console.log('order:', this.order);
       const newPoints = this.firestoreUser.points001 + (this.order * 10);
       this.userService.updateCurrentUserPoints(this.firestoreUser.uid, newPoints);
-
-
     }
   }
 

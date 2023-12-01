@@ -16,16 +16,16 @@ ____ ____ ____ ____ ____ _________ ____ ____ ____ ____ ____
 </div> <!-- End containerMain  -->
 <div class="containerMain containerheaderFooter">
 
-<button class="btnHome marg5" routerLink="/home">HOME</button>
+<button class="btnNav marg5" routerLink="/home">HOME</button>
 
 <div class="navBtns">
   <button *ngIf="(authUser$ | async)"
-  class="btnLogout marg5"
+  class="btnNav marg5"
   (click)="logOut()">
   LOGOUT
 </button>
 <button *ngIf="!(authUser$ | async)"
-class="btnLogout marg5"
+class="btnNav marg5"
 routerLink="/login">
 LOGIN
 </button>
