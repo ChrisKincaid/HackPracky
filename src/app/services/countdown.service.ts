@@ -36,7 +36,6 @@ export class CountdownService {
   }
 
   stopCountdown(): void {
-    console.log('Countdown should have stopped');
     if (this.intervalId) {
       window.clearInterval(this.intervalId);
       this.intervalId = undefined;

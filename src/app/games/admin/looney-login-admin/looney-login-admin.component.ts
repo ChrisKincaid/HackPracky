@@ -32,7 +32,6 @@ export class LooneyLoginAdminComponent implements OnInit {
     this.looneyLoginService.gameStatus$.subscribe(gameStatus => {
       this.gameStatus = gameStatus;
       this.cdr.detectChanges();
-      console.log('gameStatus: ', this.gameStatus);
       this.authUser$ = this.authService.getUser();
       this.authUser$.subscribe(user =>  {
           if (user) {

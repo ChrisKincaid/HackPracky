@@ -41,7 +41,6 @@ export class LooneyLoginService {
   async startGame(): Promise<void>  {
     await this.generateHashStrings()
     await this.getLowestOrderHash()
-    // console.log('The current hash:', this.hashSubject);
     this.firestore.doc('games/looneyLoginGameStatus')
       .set({ gameStatus: true }, { merge: true })
       .then(() => {
@@ -55,7 +54,6 @@ export class LooneyLoginService {
   async startGameEASY(): Promise<void>  {
     await this.generateHashStringsEASY()
     await this.getLowestOrderHash()
-    // console.log('The current hash:', this.hashSubject);
     this.firestore.doc('games/looneyLoginGameStatus')
       .set({ gameStatus: true }, { merge: true })
       .then(() => {
@@ -69,7 +67,6 @@ export class LooneyLoginService {
   async startGameSUPEREASY(): Promise<void>  {
     await this.generateHashStringsEASY()
     await this.getLowestOrderHash()
-    // console.log('The current hash:', this.hashSubject);
     this.firestore.doc('games/looneyLoginGameStatus')
       .set({ gameStatus: true }, { merge: true })
       .then(() => {
@@ -138,7 +135,6 @@ export class LooneyLoginService {
       input: selectedChars
     };
     this.currentPWInfo$.next(currentPWInfo);
-    console.log('Updated currentPWInfo:', currentPWInfo);
   }
 
   //Generating fake password hashes for game and uploading to db DEFAULT MODE
@@ -193,7 +189,6 @@ export class LooneyLoginService {
 
       // Commit the batch
       batch.commit().then(() => {
-        // console.log('All password hashes replaced.');
       });
     });
   }
@@ -250,7 +245,6 @@ export class LooneyLoginService {
 
       // Commit the batch
       batch.commit().then(() => {
-        // console.log('All password hashes replaced.');
       });
     });
   }
@@ -307,7 +301,6 @@ export class LooneyLoginService {
 
       // Commit the batch
       batch.commit().then(() => {
-        // console.log('All password hashes replaced.');
       });
     });
   }

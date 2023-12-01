@@ -82,7 +82,6 @@ export class LooneyLoginComponent implements OnInit {
 
       this.looneyLoginService.currentPWInfo$.subscribe(currentPWInfo => {
         this.currentPWInfo = currentPWInfo;
-        console.log('currentPWInfo:', currentPWInfo);
       });
 
       // this.updateHash();
@@ -107,45 +106,36 @@ export class LooneyLoginComponent implements OnInit {
 
   } // End of ngOnInit()
 
-  // async updateHash(): Promise<void> {
-  //   // debugger
-  //   (await this.looneyLoginService.getLowestOrderHash()).subscribe(hash => {
-  //     this.hash = hash;
-  //     // console.log('This:', this);
-  //     this.order = this.looneyLoginService.order;
-  //     // console.log('The hash:', this.hash);
-  //     this.cdr.detectChanges();
-  //   });
-  // }
-
   async checkPassword(input: string, inputField: HTMLInputElement): Promise<void>  {
-    if (this.authService.isLoggedIn) {
-      this.toastr.success('Must be logged in to play.', '', {
-        positionClass: 'toast-center-center'
-      });
-      return;
-    }
-    const hashedInput = CryptoJS.SHA256(input).toString();
-    console.log('This hash check:', this.currentPWInfo[0]?.value);
+    this.authService.isLoggedIn().subscribe(isLoggedIn => {
+      // if (!isLoggedIn) {
+      //   this.toastr.success('Must be logged in to play.', '', {
+      //     positionClass: 'toast-center-center'
+      //   });
+      //   return;
+      // }
 
-    if (hashedInput === this.currentPWInfo[0]?.value) {
-      this.toastr.success('YOU GOT A CORRECT PASSWORD!!!!')
-      this.looneyLoginService.removeLowestOrderHash().then(() => {
-        this.updateUserPoints();
-        // this.updateHash();
-      });
+      const hashedInput = CryptoJS.SHA256(input).toString();
 
-    } else {
-      const randomMessage = this.messages[Math.floor(Math.random() * this.messages.length)];
-      this.toastr.show(randomMessage);
-    }
-    inputField.value = ''; // reset the input field
+      if (hashedInput === this.currentPWInfo[0]?.value) {
+        this.toastr.success('YOU GOT A CORRECT PASSWORD!!!!')
+        this.looneyLoginService.removeLowestOrderHash().then(() => {
+          this.updateUserPoints();
+          // this.updateHash();
+        });
+
+      } else {
+        const randomMessage = this.messages[Math.floor(Math.random() * this.messages.length)];
+        this.toastr.show(randomMessage);
+      }
+      inputField.value = ''; // reset the input field
+    });
   }
 
   updateUserPoints(): void {
     if (this.firestoreUser) {
       const newPoints = this.firestoreUser.points001 + (this.order * 10);
-      this.userService.updateCurrentUserPoints(this.firestoreUser.uid, newPoints);
+      this.userService.updateCurrentUserPoints(this.firestoreUser.uid, newPoints, 'points001', this.firestoreUser.userName);
     }
   }
 

@@ -166,6 +166,7 @@ export class AuthService {
   }
 
   isLoggedIn(){
+    console.log('isLoggedInGuard: ', this.isLoggedInGuard);
     return this.loggedIn.asObservable();
   }
 }
